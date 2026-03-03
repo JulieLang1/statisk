@@ -1,25 +1,12 @@
-<!doctype html>
-<html lang="da">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FashionRus — Product</title>
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
-  <body>
-    <header class="site-header">
-      <div class="header-inner">
-        <a class="brand" href="index.html">Fashion<span>R</span>us</a>
-        <nav class="nav">
-          <a href="index.html">Categories</a>
-          <a href="produktliste.html">Brands</a>
-          <a href="produkt.html">Seasons</a>
-        </nav>
-      </div>
-    </header>
+const params = new URLSearchParams(window.location.search);
+console.log(params);
+const id = params.get("id");
+console.log(id);
 
-    <main class="container">
-      <div class="page-top">
+fetch(`https://kea-alt-del.dk/t7/api/products/${id}`)
+  .then((response) => response.json())
+  .then((data) => {
+    productContainer.innerHTML = ` <div class="page-top">
         <div class="breadcrumb">
           <a href="index.html">Home</a> › <a href="produktliste.html">Brands</a> › <a href="produktliste.html">Nike</a> ›
           <strong>Sahara Team India Fanwear Round Neck Jersey</strong>
@@ -29,7 +16,7 @@
       <section class="product-layout" aria-label="Produkt detaljer">
         <!-- Venstre: billede -->
         <div class="product-hero">
-          <img src="https://kea-alt-del.dk/t7/images/webp/640/1573.webp" alt="Sahara Team India Fanwear Round Neck Jersey" />
+          <img src="https://kea-alt-del.dk/t7/images/webp/640/${id}.webp" alt="Sahara Team India Fanwear Round Neck Jersey " />
         </div>
 
         <!-- Højre: info + køb -->
@@ -37,12 +24,22 @@
           <div class="info-card">
             <h2>Product Information</h2>
             <div class="info-grid">
-              <div class="label">Model name</div>
-              <div>Sahara Team India Fanwear Round Neck Jersey</div>
-              <div class="label">Color</div>
-              <div>Blue</div>
-              <div class="label">Inventory number</div>
-              <div>1163</div>
+              <div class="label">Kategori</div>
+              <div>${data.category}</div>
+              <div class="label">Sub kategori</div>
+              <div>${data.subcategory}</div>
+              <div class="label">Articletype</div>
+              <div>${data.articletype}</div>
+              <div class="label">Season</div>
+              <div>${data.season}</div>
+              <div class="label">Product display name</div>
+              <div>${data.productdisplayname}</div>
+              <div class="label">Production year</div>
+              <div>${data.productionyear}</div>
+              <div class="label">Type</div>
+              <div>${data.usagetype}</div>
+              <div class="label"> Price </div>
+              <div>${data.price}</div>
             </div>
 
             <hr style="border: 0; border-top: 1px solid var(--border); margin: 14px 0" />
@@ -70,8 +67,7 @@
             <button type="button">Add to basket</button>
           </aside>
         </div>
-      </section>
-    </main>
-    <script src="js/produkt.js" defer></script>
-  </body>
-</html>
+      </section> `;
+  });
+
+const productContainer = document.querySelector(".container");
