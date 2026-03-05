@@ -2,11 +2,11 @@
 :root {
   --max: 1100px;
   --gap: 18px;
-  --border: #e6e6e6;
+  --border: #000000;
   --text: #111;
   --muted: #0a0061;
-  --bg: #fff;
-  --card: #fff;
+  --bg: #ffffff;
+  --card: #c4c5fd;
   --shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   --accent: #000;
   --sale: #e53935;
