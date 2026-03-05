@@ -1,73 +1,63 @@
+"use strict";
+
 const params = new URLSearchParams(window.location.search);
-console.log(params);
 const id = params.get("id");
-console.log(id);
 
-fetch(`https://kea-alt-del.dk/t7/api/products/${id}`)
-  .then((response) => response.json())
-  .then((data) => {
-    productContainer.innerHTML = ` <div class="page-top">
-        <div class="breadcrumb">
-          <a href="index.html">Home</a> › <a href="produktliste.html">Brands</a> › <a href="produktliste.html">Nike</a> ›
-          <strong>Sahara Team India Fanwear Round Neck Jersey</strong>
-        </div>
-      </div>
+if (!id) {
+  productTitle.textContent = "Mangler id i URL (produkt.html?id=XXXX)";
+} else {
+  fetch(`https://kea-alt-del.dk/t7/api/products/${id}`)
+    .then((r) => r.json())
+    .then(showProduct)
+    .catch(() => {
+      productTitle.textContent = "Kunne ikke hente produkt.";
+    });
+}
 
-      <section class="product-layout" aria-label="Produkt detaljer">
-        <!-- Venstre: billede -->
-        <div class="product-hero">
-          <img src="https://kea-alt-del.dk/t7/images/webp/640/${id}.webp" alt="Sahara Team India Fanwear Round Neck Jersey " />
-        </div>
+function showProduct(data) {
+  const isSoldOut = data.soldout == 1;
+  const isOnSale = data.discount > 0;
 
-        <!-- Højre: info + køb -->
-        <div class="product-info">
-          <div class="info-card">
-            <h2>Product Information</h2>
-            <div class="info-grid">
-              <div class="label">Kategori</div>
-              <div>${data.category}</div>
-              <div class="label">Sub kategori</div>
-              <div>${data.subcategory}</div>
-              <div class="label">Articletype</div>
-              <div>${data.articletype}</div>
-              <div class="label">Season</div>
-              <div>${data.season}</div>
-              <div class="label">Product display name</div>
-              <div>${data.productdisplayname}</div>
-              <div class="label">Production year</div>
-              <div>${data.productionyear}</div>
-              <div class="label">Type</div>
-              <div>${data.usagetype}</div>
-              <div class="label"> Price </div>
-              <div>${data.price}</div>
-            </div>
+  crumbTitle.textContent = data.productdisplayname;
+  productTitle.textContent = data.productdisplayname;
+  brand.textContent = data.brandname ?? "";
+  type.textContent = data.articletype ?? "";
+  category.textContent = data.category ?? "";
+  season.textContent = data.season ?? "";
+  usage.textContent = data.usagetype ?? "";
 
-            <hr style="border: 0; border-top: 1px solid var(--border); margin: 14px 0" />
+  brandName.textContent = data.brandname ?? "";
+  articleType.textContent = data.articletype ?? "";
 
-            <div style="display: flex; flex-direction: column; gap: 6px">
-              <div style="font-size: 32px; font-weight: 900; letter-spacing: -0.02em">Nike</div>
-              <div class="small">Nike, creating experiences for today's athlete</div>
-            </div>
-          </div>
+  productImg.src = `https://kea-alt-del.dk/t7/images/webp/640/${data.id}.webp`;
+  productImg.alt = data.productdisplayname;
 
-          <aside class="buy-box">
-            <div class="brandline">Sahara Team India Fanwear Round Neck Jersey</div>
-            <div class="small">Nike | Tshirts</div>
+  if (isOnSale) {
+    saleBadge.hidden = false;
+    saleBadge.textContent = `-${data.discount}%`;
+  } else {
+    saleBadge.hidden = true;
+  }
 
-            <div class="select-row">
-              <label class="small" for="size" style="min-width: 90px">Choose size</label>
-              <select id="size" name="size">
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
-              </select>
-            </div>
+  soldoutBadge.hidden = !isSoldOut;
+  soldoutText.hidden = !isSoldOut;
 
-            <button type="button">Add to basket</button>
-          </aside>
-        </div>
-      </section> `;
-  });
+  priceBox.innerHTML = "";
+  if (isOnSale) {
+    const newPrice = Math.round(data.price * (1 - data.discount / 100));
+    priceBox.innerHTML = `
+      <span class="old">DKK ${data.price},-</span>
+      <span class="now">DKK ${newPrice},-</span>
+    `;
+  } else {
+    priceBox.innerHTML = `<span class="now">DKK ${data.price},-</span>`;
+  }
 
-const productContainer = document.querySelector(".container");
+  addBtn.disabled = isSoldOut;
+  addBtn.textContent = isSoldOut ? "Sold out" : "Add to basket";
+}
+const brand = document.querySelector("#brand");
+const type = document.querySelector("#type");
+const category = document.querySelector("#category");
+const season = document.querySelector("#season");
+const usage = document.querySelector("#usage");

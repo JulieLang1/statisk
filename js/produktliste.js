@@ -2,15 +2,12 @@
 
 const productContainer = document.querySelector(".product_list_container");
 
-// læs category fra URL: produktliste.html?category=Apparel
 const params = new URLSearchParams(window.location.search);
 const category = params.get("category");
 
-// (valgfrit) hvis du har en <h1> på siden
 const h1 = document.querySelector("h1");
 if (h1 && category) h1.textContent = category;
 
-// HENT PRODUKTER (rigtig URL!)
 const url = category ? `https://kea-alt-del.dk/t7/api/products?category=${encodeURIComponent(category)}` : "https://kea-alt-del.dk/t7/api/products";
 
 fetch(url)
@@ -24,13 +21,12 @@ function showProducts(productsArray) {
   productsArray.forEach((product) => {
     const isSoldOut = product.soldout === 1;
     const isOnSale = product.discount > 0;
-
     // badges
     const saleBadge = isOnSale ? `<span class="badge sale">-${product.discount}%</span>` : "";
 
     const soldOutBadge = isSoldOut ? `<span class="badge soldout">Sold out</span>` : "";
 
-    // priser (beregn ny pris)
+    // priser (beregn nye pris)
     const newPrice = isOnSale ? Math.round(product.price * (1 - product.discount / 100)) : product.price;
 
     const priceHtml = isOnSale

@@ -3,17 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FashionRus — Product</title>
+    <title>FashionRus – Product</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
     <header class="site-header">
       <div class="header-inner">
         <a class="brand" href="index.html">Fashion<span>R</span>us</a>
         <nav class="nav">
           <a href="index.html">Categories</a>
-          <a href="produktliste.html">Brands</a>
-          <a href="produkt.html">Seasons</a>
+          <a href="produktliste.html">Products</a>
+          <a href="#">Seasons</a>
         </nav>
       </div>
     </header>
@@ -21,45 +22,41 @@
     <main class="container">
       <div class="page-top">
         <div class="breadcrumb">
-          <a href="index.html">Home</a> › <a href="produktliste.html">Brands</a> › <a href="produktliste.html">Nike</a> ›
-          <strong>Sahara Team India Fanwear Round Neck Jersey</strong>
+          <a href="index.html">Home</a> › <a href="produktliste.html">Products</a> ›
+          <strong id="crumbTitle">Produkt</strong>
         </div>
       </div>
 
       <section class="product-layout" aria-label="Produkt detaljer">
         <!-- Venstre: billede -->
         <div class="product-hero">
-          <img src="https://kea-alt-del.dk/t7/images/webp/640/1573.webp" alt="Sahara Team India Fanwear Round Neck Jersey" />
+          <span id="saleBadge" class="badge sale" hidden></span>
+          <span id="soldoutBadge" class="badge soldout" hidden>Sold out</span>
+
+          <img id="productImg" src="" alt="" />
         </div>
 
         <!-- Højre: info + køb -->
         <div class="product-info">
-          <div class="info-card">
-            <h2>Product Information</h2>
-            <div class="info-grid">
-              <div class="label">Model name</div>
-              <div>Sahara Team India Fanwear Round Neck Jersey</div>
-              <div class="label">Color</div>
-              <div>Blue</div>
-              <div class="label">Inventory number</div>
-              <div>1163</div>
-            </div>
+          <h1 id="productTitle">Loading…</h1>
+          <p class="small"><span id="brandName"></span> | <span id="articleType"></span></p>
 
-            <hr style="border: 0; border-top: 1px solid var(--border); margin: 14px 0" />
-
-            <div style="display: flex; flex-direction: column; gap: 6px">
-              <div style="font-size: 32px; font-weight: 900; letter-spacing: -0.02em">Nike</div>
-              <div class="small">Nike, creating experiences for today's athlete</div>
-            </div>
+          <div class="product-details">
+            <p><strong>Brand:</strong> <span id="brand"></span></p>
+            <p><strong>Type:</strong> <span id="type"></span></p>
+            <p><strong>Category:</strong> <span id="category"></span></p>
+            <p><strong>Season:</strong> <span id="season"></span></p>
+            <p><strong>Usage:</strong> <span id="usage"></span></p>
           </div>
 
-          <aside class="buy-box">
-            <div class="brandline">Sahara Team India Fanwear Round Neck Jersey</div>
-            <div class="small">Nike | Tshirts</div>
+          <div class="price" id="priceBox"></div>
+          <p id="soldoutText" class="soldout-text" hidden>Denne vare er udsolgt</p>
 
+          <aside class="buy-box">
             <div class="select-row">
               <label class="small" for="size" style="min-width: 90px">Choose size</label>
               <select id="size" name="size">
+                <option value="">Vælg</option>
                 <option>S</option>
                 <option>M</option>
                 <option>L</option>
@@ -67,11 +64,12 @@
               </select>
             </div>
 
-            <button type="button">Add to basket</button>
+            <button id="addBtn" type="button">Add to basket</button>
           </aside>
         </div>
       </section>
     </main>
+
     <script src="js/produkt.js" defer></script>
   </body>
 </html>

@@ -190,8 +190,10 @@ a:hover {
 }
 
 .badge.sale {
-  left: 10px;
+  left: 12px;
+  top: 12px;
   background: #e53935;
+  position: absolute;
 }
 
 .badge.soldout {
@@ -272,6 +274,7 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 .product-hero img {
   width: 100%;
